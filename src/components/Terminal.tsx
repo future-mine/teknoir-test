@@ -29,14 +29,18 @@ export const TerminalUI = ({ onInput }: Props) => {
       setOutput(["A command is required"], false, terminalInput);
       return;
     }
-    const output = onInput(command, args);
-    if (output.success) {
-      setOutput(output.info, output.success, terminalInput);
-      if (output.callback) {
-        output.callback();
+    try {
+      const output = onInput(command, args);
+      if (output.success) {
+        setOutput(output.info, output.success, terminalInput);
+        if (output.callback) {
+          output.callback();
+        }
+      } else {
+        setOutput(output.error, output.success, terminalInput);
       }
-    } else {
-      setOutput(output.error, output.success, terminalInput);
+    } catch(error: any) {
+      setOutput([error?.message || error], false, terminalInput);
     }
   };
   return (
