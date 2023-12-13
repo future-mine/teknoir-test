@@ -29,6 +29,10 @@ export const TerminalUI = ({ onInput }: Props) => {
       setOutput(["A command is required"], false, terminalInput);
       return;
     }
+    if(command === 'clear') {
+      setTerminalLineData([])
+      return
+    }
     try {
       const output = onInput(command, args);
       if (output.success) {
